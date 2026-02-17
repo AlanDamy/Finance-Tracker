@@ -17,7 +17,7 @@ const getAllTransactions = async () => {
     const sql = `SELECT t.*, c.name AS category_name, c.type AS category_type
                  FROM transactions t
                  JOIN categories c ON t.category_id = c.id
-                 ORDER BY t.transaction_Date DESC`;
+                 ORDER BY t.transaction_Date ASC`;
     return await db.all(sql);
 };
 
