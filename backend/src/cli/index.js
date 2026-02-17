@@ -10,17 +10,15 @@ program
     .description('A CLI tool to track your finances')
     .version('1.0.0');
 
-    program.addCommand(addCommand);
-    program.addCommand(listCommand);
+program.addCommand(addCommand);
+program.addCommand(listCommand);
 
-    (async () => {
-        try {
-            await initDatabase();
-            program.parseAsync(process.argv);
-        } catch (error) {
-            console.error('Error:', error.message);
-            process.exit(1);
-        } finally {
-            await closeDatabase();
-        }
-    })();
+(async () => {
+    try {
+        await initDatabase();
+        await program.parseAsync(process.argv);
+    } catch (error) {
+        console.error('Error:', error.message);
+        process.exit(1);
+    }
+})();

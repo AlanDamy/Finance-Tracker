@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS categories (
     type TEXT NOT NULL CHECK(type IN ('income', 'expense'))
 );
 
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     amount REAL NOT NULL,
     category_id INTEGER NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE transactions (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
-INSERT INTO categories (name, type) VALUES
+INSERT OR IGNORE INTO categories (name, type) VALUES
     ('Salary', 'income'),
     ('Freelance', 'income'),
     ('Groceries', 'expense'),
