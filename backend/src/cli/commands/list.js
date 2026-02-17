@@ -1,6 +1,6 @@
 const {Command  } = require('commander');
 const { getAllTransactions } = require('../../db/queries');
-const { formatCurrency, formatTable } = require('../../utils/format');
+const { formatCurrency, formatTable } = require('../utils/formatting');
 
 const listCommand = new Command('list')
     .description('List all transactions')
@@ -25,4 +25,4 @@ const listCommand = new Command('list')
         console.log(`${transactions.length} transaction(s) total.`);
     });
 
-    modiule.exports = listCommand;
+    module.exports = listCommand;

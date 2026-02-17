@@ -1,6 +1,6 @@
 const {Command  } = require('commander');
 const { getCategories, addTransaction } = require('../../db/queries');
-const { formatCurrency } = require('../../utils/format');
+const { formatCurrency } = require('../utils/formatting');
 const { validateAmount, validateDate } = require('../utils/validation');
 
 const addCommand = new Command('add')
