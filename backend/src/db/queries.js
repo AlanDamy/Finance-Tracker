@@ -21,8 +21,31 @@ const getAllTransactions = async () => {
     return await db.all(sql);
 };
 
+const getBalance = async () => {
+    const db = getDatabase();
+    const result = await db.get('SELECT SUM(amount) as balance FROM transactions');
+    return result.balance || 0;
+};
+
+const getTransactionsByMonth = async (year, month) => {
+    const db = getDatabase();
+    const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+    const endDate = `${year}-${String(month).padStart(2, '0')}-31`;
+    
+    const sql = `SELECT t.*, c.name AS category_name, c.type AS category_type
+                 FROM transactions t
+                 JOIN categories c ON t.category_id = c.id
+                 WHERE t.transaction_date >= ? AND t.transaction_date <= ?
+                 ORDER BY t.transaction_date ASC`;
+    
+    return await db.all(sql, [startDate, endDate]);
+};
+
+
 module.exports = {
     getCategories,
     addTransaction,
-    getAllTransactions
+    getAllTransactions,
+    getBalance,
+    getTransactionsByMonth
 }

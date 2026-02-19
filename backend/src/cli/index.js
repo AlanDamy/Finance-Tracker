@@ -2,6 +2,8 @@ const { Command } = require('commander');
 const { initDatabase, closeDatabase } = require('../db/connection');
 const listCommand = require('./commands/list');
 const addCommand = require('./commands/add');
+const balanceCommand = require('./commands/balance');
+
 
 const program = new Command();
 
@@ -12,6 +14,7 @@ program
 
 program.addCommand(addCommand);
 program.addCommand(listCommand);
+program.addCommand(balanceCommand);
 
 (async () => {
     try {
