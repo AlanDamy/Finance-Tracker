@@ -41,11 +41,35 @@ const getTransactionsByMonth = async (year, month) => {
     return await db.all(sql, [startDate, endDate]);
 };
 
+const getSummaryByCategory = async (year, month) => {
+    const db = getDatabase();
+    let sql = `SELECT c.name AS category_name,
+                      c.type AS category_type,
+                      SUM(t.amount) AS total
+               FROM transactions t
+               JOIN categories c ON t.category_id = c.id`;
+    
+    const params = [];
+    
+    if (year && month) {
+        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+        const endDate = `${year}-${String(month).padStart(2, '0')}-31`;
+        sql += ` WHERE t.transaction_date >= ? AND t.transaction_date <= ?`;
+        params.push(startDate, endDate);
+    }
+    
+    sql += ` GROUP BY c.id ORDER BY c.type, total DESC`;
+    
+    return await db.all(sql, params);
+};
+
+
 
 module.exports = {
     getCategories,
     addTransaction,
     getAllTransactions,
     getBalance,
-    getTransactionsByMonth
+    getTransactionsByMonth,
+    getSummaryByCategory
 }
