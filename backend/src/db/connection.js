@@ -5,7 +5,10 @@ const { open } = require('sqlite');
 let db = null;
 
 const initDatabase = async () => {
-    try{
+    try {
+        const dbDir = path.join(__dirname, '../../data');
+        await fs.mkdir(dbDir, { recursive: true });
+
         db = await open({
             filename: path.join(__dirname, '../../data/finance.db'),
             driver: sqlite3.Database
@@ -17,7 +20,7 @@ const initDatabase = async () => {
         const schema = await fs.readFile(schemaPath, 'utf-8');
         await db.exec(schema);
 
-        console.log('Database connection established'); 
+        console.log('Database connection established');
         console.log('Schema initialized successfully');
 
         return db;
@@ -25,22 +28,22 @@ const initDatabase = async () => {
         console.error('Error connecting to database:', e);
         throw e;
     }
-}
+};
 
 const getDatabase = () => {
     if (!db) {
         throw new Error('Database connection not established. Call initDatabase() first.');
     }
     return db;
-}
+};
 
 const closeDatabase = async () => {
-    if(db) {
+    if (db) {
         await db.close();
         db = null;
         console.log('Database connection closed');
     }
-}
+};
 
 module.exports = {
     initDatabase,
